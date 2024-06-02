@@ -5,13 +5,14 @@ on:
   push:
     branches:
     - main
+    - 'Aero*'
 
 env:
   AZURE_WEBAPP_NAME: aerostat
   AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     
     steps:
@@ -27,13 +28,31 @@ jobs:
         
       - name: Build
         run: dotnet build ./src/Aero.sln --configuration Release --no-restore
+
+# jobs:
+#   publish:
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - uses: actions/checkout@v3
+      
+#       - name: Setup .NET
+#         uses: actions/setup-dotnet@v3
+#         with:
+#           dotnet-version: '8.0.x'
+          
+#       - name: Restore
+#         run: dotnet restore ./src/Aero.sln
         
-      - name: Publish
-        run: dotnet publish ./src/Aero.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+#       - name: Build
+#         run: dotnet build ./src/Aero.sln --configuration Release --no-restore
         
-      - name: Deployment
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+#       - name: Publish
+#         run: dotnet publish ./src/Aero.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        
+#       - name: Deployment
+#         uses: azure/webapps-deploy@v2
+#         with:
+#           app-name: ${{ env.AZURE_WEBAPP_NAME }}
+#           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+#           package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
