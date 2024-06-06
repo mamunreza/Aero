@@ -1,4 +1,6 @@
 
+using System.Reflection;
+
 namespace Api;
 
 public class Program
@@ -13,6 +15,8 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         var app = builder.Build();
 
